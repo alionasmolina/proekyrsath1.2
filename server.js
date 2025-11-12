@@ -1347,7 +1347,6 @@ app.post('/api/admin/create-test-users', authenticateToken, requireAdmin, (req, 
                             createdCount++;
                         }
                         
-                        // Когда все пользователи обработаны
                         if (createdCount + errorCount === testUsers.length) {
                             res.json({
                                 success: true,
@@ -1358,7 +1357,6 @@ app.post('/api/admin/create-test-users', authenticateToken, requireAdmin, (req, 
                         }
                     });
             } else {
-                // Пользователь уже существует
                 createdCount++;
                 if (createdCount + errorCount === testUsers.length) {
                     res.json({
@@ -1374,7 +1372,7 @@ app.post('/api/admin/create-test-users', authenticateToken, requireAdmin, (req, 
 });
 // Гарантированный endpoint для получения клиентов
 app.get('/api/admin/all-customers', authenticateToken, requireAdmin, (req, res) => {
-    console.log('📞 Запрос списка клиентов');
+    console.log('Запрос списка клиентов');
     
     const query = `
         SELECT 
@@ -1392,7 +1390,6 @@ app.get('/api/admin/all-customers', authenticateToken, requireAdmin, (req, res) 
     db.all(query, [], (err, customers) => {
         if (err) {
             console.error('Ошибка базы данных:', err);
-            // Возвращаем тестовых клиентов при ошибке
             const testCustomers = [
                 { id: 1, first_name: 'Иван', last_name: 'Иванов', email: 'client1@example.com', phone: '+79123456789' },
                 { id: 2, first_name: 'Мария', last_name: 'Петрова', email: 'client2@example.com', phone: '+79123456780' },
@@ -1406,7 +1403,6 @@ app.get('/api/admin/all-customers', authenticateToken, requireAdmin, (req, res) 
         
         console.log(`Найдено клиентов: ${customers.length}`);
         
-        // Всегда возвращаем успех, даже если клиентов нет
         res.json({
             success: true,
             customers: customers.length > 0 ? customers : [
