@@ -292,7 +292,6 @@ function resetAutoIncrement() {
   const tables = ['byket', 'nabor', 'stakanciki', 'tort', 'masterclasses'];
 
   tables.forEach(table => {
-    // Получаем максимальный ID для таблицы
     db.get(`SELECT MAX(id) as maxId FROM ${table}`, (err, row) => {
       if (err) {
         console.error(`Ошибка получения maxId для ${table}:`, err.message);
@@ -301,7 +300,6 @@ function resetAutoIncrement() {
 
       const maxId = row.maxId || 0;
 
-      // Сбрасываем последовательность автоинкремента
       db.run(`UPDATE sqlite_sequence SET seq = ? WHERE name = ?`, [maxId, table], (err) => {
         if (err) {
           console.error(`Ошибка сброса автоинкремента для ${table}:`, err.message);
@@ -313,7 +311,6 @@ function resetAutoIncrement() {
   });
 }
 
-// JWT функции
 function generateToken(payload) {
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
   const payloadEncoded = Buffer.from(JSON.stringify(payload)).toString('base64');
@@ -342,7 +339,6 @@ function verifyToken(token) {
   }
 }
 
-// Middleware для проверки аутентификации
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -360,7 +356,6 @@ function authenticateToken(req, res, next) {
   next();
 }
 
-// Middleware для проверки роли администратора
 function requireAdmin(req, res, next) {
   if (req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Требуются права администратора' });
@@ -368,7 +363,6 @@ function requireAdmin(req, res, next) {
   next();
 }
 
-// Маршруты аутентификации
 app.post('/api/register', (req, res) => {
   const { email, password, firstName, lastName, phone } = req.body;
 
@@ -464,7 +458,6 @@ app.get('/api/profile', authenticateToken, (req, res) => {
   res.json({ user: req.user });
 });
 
-// Маршрут для загрузки изображений
 app.post('/api/upload', authenticateToken, requireAdmin, upload.single('image'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'Файл не был загружен' });
@@ -474,7 +467,6 @@ app.post('/api/upload', authenticateToken, requireAdmin, upload.single('image'),
   res.json({ url: imageUrl });
 });
 
-// Маршрут для получения мастер-классов
 app.get('/api/masterclasses', (req, res) => {
   const query = 'SELECT * FROM masterclasses WHERE in_stock = 1 ORDER BY id';
   db.all(query, [], (err, rows) => {
@@ -496,7 +488,6 @@ app.get('/api/masterclasses', (req, res) => {
   });
 });
 
-// Исправьте маршрут для получения всех продуктов
 app.get('/api/products', (req, res) => {
   const queries = [
     "SELECT *, 'byket' as category FROM byket WHERE in_stock = 1",
@@ -513,7 +504,6 @@ app.get('/api/products', (req, res) => {
       if (err) {
         console.error('Ошибка выполнения запроса:', err.message);
       } else {
-        // Преобразуем boolean значения и добавляем категорию
         const formattedRows = rows.map(row => ({
           id: row.id,
           name: row.name,
@@ -529,7 +519,6 @@ app.get('/api/products', (req, res) => {
 
       completedQueries++;
       if (completedQueries === queries.length) {
-        // Сортируем по ID для правильного порядка
         allProducts.sort((a, b) => a.id - b.id);
         res.json(allProducts);
       }
@@ -537,20 +526,17 @@ app.get('/api/products', (req, res) => {
   });
 });
 
-// Маршрут для сброса автоинкремента
 app.post('/api/admin/reset-auto-increment', authenticateToken, requireAdmin, (req, res) => {
   const tables = ['byket', 'nabor', 'stakanciki', 'tort', 'masterclasses'];
   let completed = 0;
 
   tables.forEach(table => {
-    // Получаем максимальный ID
     db.get(`SELECT MAX(id) as maxId FROM ${table}`, (err, row) => {
       if (err) {
         console.error(`Ошибка получения maxId для ${table}:`, err.message);
       } else {
         const maxId = row.maxId || 0;
 
-        // Сбрасываем последовательность
         db.run(`UPDATE sqlite_sequence SET seq = ? WHERE name = ?`, [maxId, table], (err) => {
           if (err) {
             console.error(`Ошибка сброса автоинкремента для ${table}:`, err.message);
