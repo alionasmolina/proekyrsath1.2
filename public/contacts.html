@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Контакты - Nadista's Lab Berry</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* === Шапка (копия с index.html) === */
+    .header1 {
+      background-color: #2c1a00;
+      color: white;
+      padding: 15px 0;
+      position: sticky;
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .top-bar {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 25px;
+    }
+
+    .top-bar span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .contact-email {
+      font-size: 11px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+
+    .header {
+      background-color: white;
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      animation: slideDown 0.8s ease 0.2s both;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2c1a00;
+      text-decoration: none;
+      animation: fadeIn 1s ease 0.4s both;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 40px;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: #2c1a00;
+      font-weight: 500;
+      transition: color 0.3s;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.6s both;
+    }
+
+    .nav-menu a:nth-child(1) {
+      animation-delay: 0.6s;
+    }
+
+    .nav-menu a:nth-child(2) {
+      animation-delay: 0.7s;
+    }
+
+    .nav-menu a:nth-child(3) {
+      animation-delay: 0.8s;
+    }
+
+    .nav-menu a:nth-child(4) {
+      animation-delay: 0.9s;
+    }
+
+    .nav-menu a:hover {
+      color: #d4af37;
+    }
+
+    .icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .icons a {
+      color: #2c1a00;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 1s both;
+    }
+
+    .icons a:nth-child(1) {
+      animation-delay: 1s;
+    }
+
+    .icons a:nth-child(2) {
+      animation-delay: 1.1s;
+    }
+
+    .icons a:nth-child(3) {
+      animation-delay: 1.2s;
+    }
+
+    .icons a:hover {
+      color: #d4af37;
+    }
+
+    .cart-count {
+      position: relative;
+      font-size: 12px;
+      color: white;
+      background-color: #d4af37;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: -10px;
+      right: -10px;
+    }
+
+    /* Стили для email пользователя в хедере */
+    .user-email {
+      font-size: 12px;
+      color: #2c1a00;
+      margin-right: 10px;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* === Герой === */
+    .hero {
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2c1a00 0%, #5a3921 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 0 20px;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white"/><circle cx="20" cy="20" r="0.7" fill="white"/><circle cx="80" cy="80" r="0.5" fill="white"/><circle cx="30" cy="70" r="0.8" fill="white"/><circle cx="70" cy="30" r="0.6" fill="white"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFadeIn 1s ease 0.5s forwards;
+    }
+
+    @keyframes slideUpFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
+    }
+
+    /* === Основной контент === */
+    .contacts-section {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+      font-size: 36px;
+      color: #2c1a00;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: #d4af37;
+    }
+
+    .section-header p {
+      font-size: 18px;
+      color: #666;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.7s forwards;
+    }
+
+    .contacts-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: 15px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFadeIn 0.8s ease forwards;
+    }
+
+    .contact-card:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+
+    .contact-card:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+
+    .contact-card:nth-child(3) {
+      animation-delay: 0.7s;
+    }
+
+    .contact-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #d4af37, #f4d03f);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      color: #2c1a00;
+      font-size: 36px;
+    }
+
+    .contact-card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: #2c1a00;
+    }
+
+    .contact-card p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #666;
+    }
+
+    .contact-card a {
+      color: #d4af37;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .contact-card a:hover {
+      color: #2c1a00;
+      text-decoration: underline;
+    }
+
+    /* === Текстовая секция === */
+    .about-text {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      line-height: 1.8;
+      font-size: 17px;
+      color: #444;
+    }
+
+    .about-text h2 {
+      text-align: center;
+      font-size: 32px;
+      color: #2c1a00;
+      margin-bottom: 30px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+
+    .about-text p {
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.7s forwards;
+    }
+
+    /* === Форма === */
+    .form-card {
+      background: white;
+      border-radius: 15px;
+      padding: 40px 30px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFadeIn 0.8s ease 0.9s forwards;
+    }
+
+    .form-card h3 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: #2c1a00;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #2c1a00;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #d4af37;
+    }
+
+    .form-group textarea {
+      height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(45deg, #d4af37, #e6b83c);
+      color: black;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    /* === Футер (копия с index.html) === */
+    .footer {
+      background-color: #2c1a00;
+      color: white;
+      padding: 50px 0;
+      margin-top: 0;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 60px;
+    }
+
+    .footer-col {
+      line-height: 1.6;
+    }
+
+    .footer-col-1 h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .footer-col-2 ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .footer-col-2 li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col-2 a {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-col-2 a:hover {
+      color: #d4af37;
+    }
+
+    .footer-col-3 .contact-item {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-col-4 .subscribe-form {
+      width: 100%;
+      position: relative;
+    }
+
+    .footer-col-4 input {
+      width: 100%;
+      padding: 10px 12px;
+      background-color: #332200;
+      border: none;
+      border-radius: 30px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .footer-col-4 button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      padding: 10px 25px;
+      background-color: #d4af37;
+      color: black;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .footer-col-4 button:hover {
+      background-color: #e6b83c;
+    }
+
+    .social-links {
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      color: white;
+      margin-right: 12px;
+      font-size: 16px;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: #d4af37;
+    }
+
+    /* Копирайт */
+    .copyright {
+      text-align: center;
+
+      padding-top: 20px;
+
+    }
+
+    .copyright .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copyright .left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .copyright a {
+      color: #d4af37;
+      text-decoration: none;
+    }
+
+    .copyright a:hover {
+      text-decoration: underline;
+    }
+
+    /* === Адаптивность === */
+    @media (max-width: 992px) {
+      .footer-container {
+        grid-template-columns: 1fr;
+        row-gap: 40px;
+      }
+
+      .footer-col {
+        text-align: center;
+      }
+
+      .footer-col-4 .subscribe-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-col-4 button {
+        width: 100%;
+        margin-top: 10px;
+        position: relative;
+      }
+
+      .contacts-container,
+      .about-text {
+        grid-template-columns: 1fr;
+      }
+
+      .copyright .container {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+    }
+
+    /* Стили для модального окна авторизации */
+    #auth-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    .auth-modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 50px;
+      border-radius: 20px;
+      width: 450px;
+      max-width: 90vw;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      border: 3px solid #d4af37;
+    }
+
+    .auth-modal-content h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #2c1a00;
+      font-weight: bold;
+    }
+
+    .auth-input-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .auth-input {
+      width: 100%;
+      padding: 15px 15px 15px 50px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s;
+      background-color: #f9f9f9;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: #d4af37;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+
+    .auth-input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #d4af37;
+      font-size: 18px;
+    }
+
+    .auth-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(45deg, #d4af37, #e6b83c);
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .auth-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 25px;
+      cursor: pointer;
+      color: #d4af37;
+      font-size: 16px;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    .auth-switch:hover {
+      color: #2c1a00;
+      text-decoration: underline;
+    }
+
+    .auth-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: #2c1a00;
+      transition: color 0.3s;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .auth-close:hover {
+      color: #d4af37;
+      background-color: #f5f5f5;
+    }
+
+    .auth-divider {
+      text-align: center;
+      margin: 20px 0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .auth-remember {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .auth-remember input {
+      margin-right: 8px;
+    }
+
+    .auth-forgot {
+      text-align: right;
+      margin-top: -15px;
+      margin-bottom: 20px;
+    }
+
+    .auth-forgot a {
+      color: #d4af37;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .auth-forgot a:hover {
+      text-decoration: underline;
+    }
+
+    /* Стили для поля подтверждения пароля (только для регистрации) */
+    #confirm-password-group {
+      display: none;
+    }
+
+    /* Дополнительные стили для улучшенного внешнего вида */
+    .auth-modal-content::before {
+      content: '🍓';
+      font-size: 40px;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 10px;
+      border-radius: 50%;
+      border: 3px solid #d4af37;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Верхняя панель -->
+  <div class="header1">
+    <div class="top-bar">
+      <div class="location">
+        <i class="fas fa-map-marker-alt"></i>
+        Москва
+      </div>
+      <div class="hours">
+        <i class="fas fa-clock"></i>
+        Принимаем заказы с 08:00 до 22:00
+      </div>
+      <div class="contact">
+        <i class="fas fa-phone"></i>
+        8 (800) 123-45-67
+        &nbsp;&nbsp;
+        <i class="fas fa-envelope"></i>
+        nadista@gmail.com
+      </div>
+    </div>
+  </div>
+
+  <!-- Шапка -->
+  <div class="header">
+    <div class="container">
+      <a href="index.html" class="logo">Nadista's Lab Berry</a>
+      <nav class="nav-menu">
+        <a href="catalog.html">КАТАЛОГ</a>
+        <a href="master-classes.html">МАСТЕР-КЛАССЫ</a>
+        <a href="about.html">О НАС</a>
+        <a href="contacts.html" style="color: #d4af37;">КОНТАКТЫ</a>
+      </nav>
+      <div class="icons">
+        <a href="#" id="user-icon"><i class="fas fa-user"></i></a>
+        
+        <a href="#" id="cart-link"><i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Герой -->
+  <div class="hero">
+    <div class="hero-content">
+      <h1>КОНТАКТЫ</h1>
+      <p>Мы всегда рады новым друзьям и готовы ответить на любые вопросы!</p>
+    </div>
+  </div>
+
+  <!-- Контактная информация -->
+  <div class="contacts-section">
+    <div class="section-header">
+      <h2>Как с нами связаться</h2>
+      <p>Напишите, позвоните или приезжайте — мы на связи каждый день!</p>
+    </div>
+    <div class="contacts-container">
+      <div class="contact-card">
+        <div class="contact-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <h3>Адрес</h3>
+        <p>г. Москва, ул. Сладкая, д. 15<br>Студия «Nadista's Lab Berry»</p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <h3>Телефон</h3>
+        <p><a href="tel:88001234567">8 (800) 123-45-67</a></p>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <h3>Email</h3>
+        <p><a href="mailto:nadista@gmail.com">nadista@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Текстовая секция -->
+  <div class="about-text">
+    <h2>Почему нам доверяют?</h2>
+    <p>
+      Мы — не просто кондитерская мастерская, а место, где рождаются эмоции. Каждая ягода, каждый букет, каждый
+      мастер-класс создаются с любовью и вниманием к деталям.
+      Наша команда работает с 2019 года и за это время подарила радость тысячам клиентов по всей России.
+    </p>
+    <p>
+      Мы ценим каждого, кто обращается к нам, и стараемся отвечать максимально быстро — в течение 15 минут в рабочее
+      время.
+      Если вы не получили ответ в течение часа — напишите повторно или позвоните, возможно, ваше письмо затерялось в
+      почтовом потоке.
+    </p>
+    <p>
+      Также вы можете найти нас в Instagram — там мы публикуем свежие работы, анонсы мастер-классов и делимся
+      закулисьем.
+    </p>
+  </div>
+
+  <!-- Футер -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="footer-col footer-col-1">
+        <h3>Nadista's Lab Berry</h3>
+        <p>Премиальные сладости, созданные с любовью. Клубника в шоколаде и японские моти высочайшего качества.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col footer-col-2">
+        <h3>Каталог</h3>
+        <ul>
+          <li><a href="catalog.html?category=byket">БУКЕТЫ ИЗ КЛУБНИКИ В ШОКОЛАДЕ</a></li>
+          <li><a href="catalog.html?category=nabor">ОРИГИНАЛЬНЫЕ НАБОРЫ</a></li>
+          <li><a href="catalog.html?category=stakanciki">ПРЕКРАСНЫЕ СТАКАНЧИКИ</a></li>
+          <li><a href="catalog.html?category=tort">ТОРТЫ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-col-3">
+        <h3>Контакты</h3>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <span>8 (800) 123-45-67</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>nadista@gmail.com</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Москва</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-clock"></i>
+          <span>Ежедневно 08:00 - 22:00</span>
+        </div>
+      </div>
+      <div class="footer-col footer-col-4">
+        <h3>Подписка</h3>
+        <p>Подпишитесь на новости и получайте эксклюзивные предложения</p>
+        <div class="subscribe-form">
+          <input type="email" placeholder="Ваш email">
+          <button>Подписаться</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Копирайт -->
+    <div class="copyright">
+      <div class="container">
+        <div class="left">
+          © 2025 Nadista's Lab Berry. Все права защищены.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модальное окно авторизации -->
+  <div id="auth-modal">
+    <div class="auth-modal-content">
+      <h2 id="auth-title">Вход</h2>
+      <form id="auth-form">
+        <div class="auth-input-group">
+          <i class="fas fa-envelope auth-input-icon"></i>
+          <input type="email" id="auth-email" placeholder="Ваш email" required class="auth-input">
+        </div>
+
+        <div class="auth-input-group">
+          <i class="fas fa-lock auth-input-icon"></i>
+          <input type="password" id="auth-password" placeholder="Ваш пароль" required class="auth-input">
+        </div>
+
+        <!-- Поле подтверждения пароля (только для регистрации) -->
+        <div class="auth-input-group" id="confirm-password-group">
+          <i class="fas fa-lock auth-input-icon"></i>
+          <input type="password" id="auth-confirm-password" placeholder="Подтвердите пароль" class="auth-input">
+        </div>
+
+        <div class="auth-remember" id="remember-me-group">
+          <input type="checkbox" id="remember-me">
+          <label for="remember-me">Запомнить меня</label>
+        </div>
+
+        <button type="submit" class="auth-submit">Войти</button>
+      </form>
+
+      <div class="auth-divider">или</div>
+
+      <p id="auth-switch" class="auth-switch">Нет аккаунта? Зарегистрироваться</p>
+      <button id="auth-close" class="auth-close">×</button>
+    </div>
+  </div>
+
+  <script>
+    // Функции для аутентификации
+    let isLoginMode = true;
+
+    function showAuthModal() {
+      document.getElementById('auth-modal').style.display = 'block';
+      updateAuthUI();
+    }
+
+    function hideAuthModal() {
+      document.getElementById('auth-modal').style.display = 'none';
+    }
+
+    function updateAuthUI() {
+      const title = document.getElementById('auth-title');
+      const form = document.getElementById('auth-form');
+      const switchText = document.getElementById('auth-switch');
+      const confirmPasswordGroup = document.getElementById('confirm-password-group');
+      const rememberMeGroup = document.getElementById('remember-me-group');
+
+      if (isLoginMode) {
+        title.textContent = 'Вход';
+        form.querySelector('button[type="submit"]').textContent = 'Войти';
+        switchText.textContent = 'Нет аккаунта? Зарегистрироваться';
+        confirmPasswordGroup.style.display = 'none';
+        rememberMeGroup.style.display = 'flex';
+      } else {
+        title.textContent = 'Регистрация';
+        form.querySelector('button[type="submit"]').textContent = 'Зарегистрироваться';
+        switchText.textContent = 'Уже есть аккаунт? Войти';
+        confirmPasswordGroup.style.display = 'block';
+        rememberMeGroup.style.display = 'none';
+      }
+    }
+
+    // Функция для обновления интерфейса после авторизации
+    function updateUIAfterAuth() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      const userIcon = document.getElementById('user-icon');
+
+      if (user && userIcon) {
+        // Заменяем иконку пользователя на email
+        userIcon.innerHTML = user.email;
+        userIcon.classList.add('user-email');
+
+        // Добавляем кнопку выхода если её нет
+        if (!document.getElementById('logout-btn')) {
+          const logoutBtn = document.createElement('a');
+          logoutBtn.href = '#';
+          logoutBtn.id = 'logout-btn';
+          logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+          logoutBtn.addEventListener('click', logout);
+          userIcon.parentNode.appendChild(logoutBtn);
+        }
+
+        // Показываем админ-панель если пользователь администратор
+        if (user.role === 'admin' && !document.getElementById('admin-panel-link')) {
+          const adminLink = document.createElement('a');
+          adminLink.href = '/admin.html';
+          adminLink.id = 'admin-panel-link';
+          adminLink.innerHTML = '<i class="fas fa-cog"></i> Панель управления';
+          document.querySelector('.nav-menu').appendChild(adminLink);
+        }
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.reload();
+    }
+
+    // Обработчики событий для модального окна
+    document.getElementById('auth-switch').addEventListener('click', () => {
+      isLoginMode = !isLoginMode;
+      updateAuthUI();
+    });
+
+    document.getElementById('auth-close').addEventListener('click', hideAuthModal);
+
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const confirmPassword = document.getElementById('auth-confirm-password').value;
+
+      // Проверка для регистрации
+      if (!isLoginMode) {
+        if (password !== confirmPassword) {
+          alert('Пароли не совпадают!');
+          return;
+        }
+        if (password.length < 6) {
+          alert('Пароль должен содержать не менее 6 символов!');
+          return;
+        }
+      }
+
+      try {
+        // Здесь должна быть реальная авторизация через API
+        // Для демонстрации используем mock
+        setTimeout(() => {
+          const userData = {
+            token: 'mock-jwt-token-' + Date.now(),
+            user: {
+              email: email,
+              role: email === 'admin@nadista.ru' ? 'admin' : 'user'
+            },
+            message: isLoginMode ? 'Вы успешно вошли!' : 'Регистрация прошла успешно!'
+          };
+
+          localStorage.setItem('token', userData.token);
+          localStorage.setItem('user', JSON.stringify(userData.user));
+          updateUIAfterAuth();
+          hideAuthModal();
+          alert(userData.message);
+        }, 1000);
+
+      } catch (error) {
+        alert('Ошибка соединения');
+      }
+    });
+
+    // Функции для корзины с проверкой авторизации
+    function getCart() {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    function updateCartCount() {
+      const cart = getCart();
+      const count = cart.reduce((total, item) => total + item.quantity, 0);
+      document.querySelectorAll('.cart-count').forEach(el => {
+        el.textContent = count;
+      });
+    }
+
+    // Проверяем авторизацию при загрузке страницы
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartCount();
+      
+      const token = localStorage.getItem('token');
+      if (token) {
+        // Проверяем валидность токена
+        fetch('/api/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.user) {
+              localStorage.setItem('user', JSON.stringify(data.user));
+              updateUIAfterAuth();
+            } else {
+              logout();
+            }
+          })
+          .catch(() => logout());
+      }
+
+      // Добавляем обработчик для иконки пользователя
+      document.getElementById('user-icon').addEventListener('click', (e) => {
+        e.preventDefault();
+        showAuthModal();
+      });
+
+      // Обработчик для ссылки корзины - проверка авторизации
+      document.getElementById('cart-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!localStorage.getItem('token')) {
+          showAuthModal();
+        } else {
+          window.location.href = 'cart.html';
+        }
+      });
+    });
+
+    // Отправка формы обратной связи
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = {
+        name: document.getElementById('name').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Спасибо! Ваше сообщение отправлено. Мы ответим в ближайшее время.');
+          this.reset();
+        } else {
+          alert('Ошибка: ' + (result.error || 'Не удалось отправить сообщение'));
+        }
+      } catch (err) {
+        alert('Ошибка соединения. Попробуйте позже.');
+      }
+    });
+
+    // Закрытие модального окна при клике вне его
+    window.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('auth-modal')) {
+        hideAuthModal();
+      }
+    });
+  </script>
+</body>
+
+</html>

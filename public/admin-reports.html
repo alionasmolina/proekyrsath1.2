@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расширенные отчеты - Панель управления Nadista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+
+        .reports-header {
+            background-color: #2c1a00;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        .reports-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .reports-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reports-nav {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .reports-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+        }
+
+        .reports-nav a:hover {
+            background-color: #d4af37;
+            color: #2c1a00;
+        }
+
+        .reports-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c1a00;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+        }
+
+        .report-category {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            color: #2c1a00;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .report-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .report-type {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .report-type:hover {
+            border-color: #d4af37;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+        }
+
+        .report-type.active {
+            border-color: #d4af37;
+            background: #fef9e7;
+        }
+
+        .report-type h4 {
+            color: #2c1a00;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .report-type p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .report-params {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c1a00;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: #c19b2a;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background-color: #218838;
+        }
+
+        /* Стили для отчетов */
+        .report-results {
+            margin-top: 20px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .report-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c1a00;
+        }
+
+        .report-summary {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .summary-item {
+            display: inline-block;
+            margin-right: 30px;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            font-size: 1.2em;
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #d4af37;
+        }
+
+        .kpi-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c1a00;
+            margin: 10px 0;
+        }
+
+        .kpi-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 16px;
+        }
+
+        .percentage-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .percentage-up {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .percentage-down {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Центрированные уведомления */
+        #alert-container {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: auto;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .alert {
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 300px;
+            max-width: 500px;
+            border: 1px solid;
+        }
+
+        .alert-success {
+            background-color: #e8f4fd;
+            color: #2c1a00;
+            border-color: #3498db;
+        }
+
+        .alert-error {
+            background-color: #fdeaea;
+            color: #c0392b;
+            border-color: #e74c3c;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 15px;
+            color: inherit;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-actions {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .summary-item {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .alert {
+                min-width: 250px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            .report-types {
+                grid-template-columns: 1fr;
+            }
+
+            .reports-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="reports-header">
+        <div class="reports-container">
+            <div class="reports-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>Расширенные отчеты - Nadista's Lab Berry</span>
+            </div>
+            <nav class="reports-nav">
+                <a href="/admin.html" target="_blank">
+                    <i class="fas fa-cog"></i> Управление товарами
+                </a>
+                <a href="#" id="refresh-reports">
+                    <i class="fas fa-sync-alt"></i> Обновить
+                </a>
+                
+                <a href="#" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Контейнер для уведомлений -->
+    <div id="alert-container"></div>
+
+    <main class="reports-container">
+        <div class="reports-section">
+            <h2 class="section-title">Система расширенных отчетов</h2>
+
+            <!-- Финансовые отчеты -->
+            <div class="report-category">
+                <h3 class="category-title">
+                    <i class="fas fa-money-bill-wave"></i> Финансовые отчеты
+                </h3>
+                <div class="report-types">
+                    <div class="report-type" data-report="daily-revenue">
+                        <h4><i class="fas fa-calendar-day"></i> Ежедневный отчет о выручке</h4>
+                        <p>Общая сумма выручки за день, детализация по товарным категориям, количество проданных единиц
+                        </p>
+                    </div>
+                    <div class="report-type" data-report="average-check">
+                        <h4><i class="fas fa-calculator"></i> Анализ среднего чека</h4>
+                        <p>Средний чек за период, динамика изменения, сравнение с предыдущими периодами</p>
+                    </div>
+                    <div class="report-type" data-report="sales-dynamics">
+                        <h4><i class="fas fa-chart-line"></i> Динамика продаж</h4>
+                        <p>Общая выручка и количество заказов за период, сезонные тренды, пиковые периоды</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Операционные отчеты -->
+            <div class="report-category">
+                <h3 class="category-title">
+                    <i class="fas fa-cogs"></i> Операционные отчеты
+                </h3>
+                <div class="report-types">
+                    <div class="report-type" data-report="order-performance">
+                        <h4><i class="fas fa-clipboard-check"></i> Отчет по выполненным заказам</h4>
+                        <p>Общее количество принятых, обработанных, доставленных и отмененных заказов</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Отчеты по клиентам -->
+            <div class="report-category">
+                <h3 class="category-title">
+                    <i class="fas fa-users"></i> Отчеты по клиентам
+                </h3>
+                <div class="report-types">
+                    <div class="report-type" data-report="customer-base">
+                        <h4><i class="fas fa-database"></i> База клиентов</h4>
+                        <p>Общее количество уникальных клиентов, новые клиенты за период, активность базы</p>
+                    </div>
+                    <div class="report-type" data-report="customer-orders">
+                        <h4><i class="fas fa-history"></i> История заказов клиентов</h4>
+                        <p>Полная история всех заказов конкретного клиента, предпочтения, частота заказов</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Параметры отчета -->
+            <div class="report-params hidden" id="report-params">
+                <h4>Параметры отчета</h4>
+                <div class="form-row" id="common-params">
+                    <div class="form-group">
+                        <label for="start-date">Дата начала:</label>
+                        <input type="date" id="start-date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="end-date">Дата окончания:</label>
+                        <input type="date" id="end-date" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Специфические параметры для каждого отчета -->
+                <div class="form-row hidden" id="daily-revenue-params">
+                    <div class="form-group">
+                        <label for="report-date">Дата отчета:</label>
+                        <input type="date" id="report-date" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-row hidden" id="average-check-params">
+                    <div class="form-group">
+                        <label for="period-type">Тип периода:</label>
+                        <select id="period-type" class="form-control">
+                            <option value="day">По дням</option>
+                            <option value="week">По неделям</option>
+                            <option value="month">По месяцам</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" id="customer-orders-params"
+                    style="display: none; border: 2px solid #d4af37; padding: 15px; border-radius: 8px; background: #fef9e7;">
+                    <div class="form-group" style="flex: 2;">
+                        <label for="customer-select" style="font-weight: bold; color: #2c1a00;">Выберите
+                            клиента:</label>
+                        <select id="customer-select" class="form-control"
+                            style="border: 1px solid #d4af37; padding: 10px;">
+                            <option value="">Список клиентов появится здесь...</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; display: flex; align-items: flex-end;">
+                        <button type="button" id="load-customers-btn" class="btn btn-primary"
+                            style="width: 100%; height: 42px;">
+                            <i class="fas fa-sync-alt"></i> Обновить список
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки действий с отчетами -->
+            <div class="form-actions">
+                <button id="generate-report" class="btn btn-primary" disabled>
+                    <i class="fas fa-chart-bar"></i> Сформировать отчет
+                </button>
+                <button id="export-excel" class="btn btn-success" disabled>
+                    <i class="fas fa-file-excel"></i> Экспорт в Excel
+                </button>
+            </div>
+
+            <!-- Результаты отчета -->
+            <div id="report-results" class="report-results">
+                <div style="text-align: center; padding: 60px; color: #6c757d;">
+                    <i class="fas fa-chart-pie" style="font-size: 64px; margin-bottom: 20px; opacity: 0.5;"></i>
+                    <h3 style="margin-bottom: 10px;">Выберите тип отчета для начала работы</h3>
+                    <p>Система поддерживает финансовые, операционные отчеты и отчеты по клиентам</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentUser = null;
+        let currentReportData = null;
+        let currentReportType = null;
+
+        // Проверка аутентификации
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+            if (!token || !user || user.role !== 'admin') {
+                window.location.href = '/';
+                return false;
+            }
+
+            currentUser = user;
+            return true;
+        }
+
+        // Показать уведомление
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                ${message}
+                <button class="alert-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            alertContainer.appendChild(alert);
+
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        // ГАРАНТИРОВАННАЯ загрузка клиентов
+        async function loadCustomers() {
+            console.log('🚀 Начало загрузки клиентов...');
+
+            const select = document.getElementById('customer-select');
+            const loadBtn = document.getElementById('load-customers-btn');
+            const originalText = loadBtn.innerHTML;
+
+            try {
+                loadBtn.innerHTML = '<div class="loading"></div> Загрузка...';
+                loadBtn.disabled = true;
+
+                const token = localStorage.getItem('token');
+                console.log('Токен:', token ? 'присутствует' : 'отсутствует');
+
+                // Используем новый гарантированный endpoint
+                const response = await fetch('/api/admin/all-customers', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log('📡 Ответ сервера:', response.status);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('📊 Получены данные:', data);
+
+                if (data.success && data.customers && data.customers.length > 0) {
+                    select.innerHTML = '<option value="">Выберите клиента</option>';
+
+                    data.customers.forEach(customer => {
+                        const option = document.createElement('option');
+                        option.value = customer.id;
+                        const firstName = customer.first_name || '';
+                        const lastName = customer.last_name || '';
+                        const fullName = `${firstName} ${lastName}`.trim();
+                        const displayName = fullName || `Клиент #${customer.id}`;
+                        option.textContent = `${displayName} - ${customer.email}`;
+                        select.appendChild(option);
+                    });
+
+                    console.log(`✅ Загружено ${data.customers.length} клиентов`);
+                    showAlert(`Успешно загружено ${data.customers.length} клиентов`);
+                } else {
+                    // Всегда создаем тестовых клиентов
+                    select.innerHTML = '<option value="">Выберите клиента (тестовые данные)</option>';
+                    const testCustomers = [
+                        { id: 1, name: 'Тестовый Клиент 1', email: 'test1@example.com' },
+                        { id: 2, name: 'Тестовый Клиент 2', email: 'test2@example.com' },
+                        { id: 3, name: 'Тестовый Клиент 3', email: 'test3@example.com' }
+                    ];
+
+                    testCustomers.forEach(customer => {
+                        const option = document.createElement('option');
+                        option.value = customer.id;
+                        option.textContent = `${customer.name} - ${customer.email}`;
+                        select.appendChild(option);
+                    });
+
+                    console.log('⚠️ Используются тестовые клиенты');
+                    showAlert('Используются тестовые данные клиентов', 'error');
+                }
+            } catch (error) {
+                console.error('❌ Критическая ошибка:', error);
+
+                // ГАРАНТИРОВАННО создаем тестовых клиентов при ЛЮБОЙ ошибке
+                select.innerHTML = '<option value="">Выберите клиента (резервные данные)</option>';
+                const backupCustomers = [
+                    { id: 1, name: 'Резервный Клиент 1', email: 'backup1@example.com' },
+                    { id: 2, name: 'Резервный Клиент 2', email: 'backup2@example.com' },
+                    { id: 3, name: 'Резервный Клиент 3', email: 'backup3@example.com' }
+                ];
+
+                backupCustomers.forEach(customer => {
+                    const option = document.createElement('option');
+                    option.value = customer.id;
+                    option.textContent = `${customer.name} - ${customer.email}`;
+                    select.appendChild(option);
+                });
+
+                showAlert('Загружены резервные данные клиентов', 'error');
+            } finally {
+                loadBtn.innerHTML = originalText;
+                loadBtn.disabled = false;
+                console.log('🏁 Завершена загрузка клиентов');
+            }
+        }
+
+        // Инициализация дат
+        function initializeDates() {
+            const today = new Date();
+            const oneMonthAgo = new Date();
+            oneMonthAgo.setDate(today.getDate() - 30);
+
+            document.getElementById('start-date').value = oneMonthAgo.toISOString().split('T')[0];
+            document.getElementById('end-date').value = today.toISOString().split('T')[0];
+            document.getElementById('report-date').value = today.toISOString().split('T')[0];
+        }
+
+        // Выбор типа отчета
+        function setupReportSelection() {
+            document.querySelectorAll('.report-type').forEach(type => {
+                type.addEventListener('click', function () {
+                    // Сброс активного состояния
+                    document.querySelectorAll('.report-type').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    currentReportType = this.dataset.report;
+                    showReportParams(currentReportType);
+                });
+            });
+        }
+
+        // Показать параметры для выбранного отчета
+        function showReportParams(reportType) {
+    console.log('🎯 Показать параметры для:', reportType);
+    
+    // Сначала скрываем ВСЕ блоки параметров
+    const allParamBlocks = document.querySelectorAll('[id$="-params"]');
+    allParamBlocks.forEach(block => {
+        block.style.display = 'none';
+    });
+    
+    // Показываем общий блок параметров
+    const commonParams = document.getElementById('common-params');
+    if (commonParams) {
+        commonParams.style.display = 'flex';
+    }
+    
+    // Показываем основной контейнер параметров
+    const paramsContainer = document.getElementById('report-params');
+    paramsContainer.style.display = 'block';
+    
+    // Показываем специфические параметры для выбранного отчета
+    const specificParams = document.getElementById(`${reportType}-params`);
+    if (specificParams) {
+        specificParams.style.display = 'flex';
+        console.log('✅ Показаны параметры для:', reportType);
+        
+        // Добавляем анимацию появления
+        specificParams.style.opacity = '0';
+        specificParams.style.transition = 'opacity 0.3s ease-in-out';
+        setTimeout(() => {
+            specificParams.style.opacity = '1';
+        }, 10);
+    } else {
+        console.warn('❌ Не найден блок параметров для:', reportType);
+    }
+    
+    // Активировать кнопку формирования отчета
+    document.getElementById('generate-report').disabled = false;
+    document.getElementById('export-excel').disabled = true;
+    
+    // Особые настройки для определенных отчетов
+    if (reportType === 'customer-orders') {
+        console.log('🔄 Автозагрузка клиентов...');
+        // Даем небольшую задержку чтобы блок успел отобразиться
+        setTimeout(() => {
+            loadCustomers();
+        }, 100);
+    }
+    
+    if (reportType === 'daily-revenue') {
+        const today = new Date();
+        document.getElementById('report-date').value = today.toISOString().split('T')[0];
+    }
+}
+
+        // Сформировать отчет
+        async function generateReport() {
+            if (!currentReportType) {
+                showAlert('Выберите тип отчета', 'error');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generate-report');
+            const originalText = generateBtn.innerHTML;
+
+            try {
+                // Показать индикатор загрузки
+                generateBtn.innerHTML = '<div class="loading"></div> Формирование...';
+                generateBtn.disabled = true;
+
+                const token = localStorage.getItem('token');
+                let url = `/api/admin/reports/${currentReportType}`;
+                const params = new URLSearchParams();
+
+                // Добавляем общие параметры
+                const startDate = document.getElementById('start-date').value;
+                const endDate = document.getElementById('end-date').value;
+
+                if (startDate) params.append('startDate', startDate);
+                if (endDate) params.append('endDate', endDate);
+
+                // Добавляем специфические параметры
+                if (currentReportType === 'daily-revenue') {
+                    const reportDate = document.getElementById('report-date').value;
+                    if (reportDate) params.append('date', reportDate);
+                }
+
+                if (currentReportType === 'average-check') {
+                    const periodType = document.getElementById('period-type').value;
+                    params.append('period', periodType);
+                }
+
+                if (currentReportType === 'customer-orders') {
+                    const customerId = document.getElementById('customer-select').value;
+                    if (!customerId) {
+                        showAlert('Выберите клиента из списка', 'error');
+                        generateBtn.innerHTML = originalText;
+                        generateBtn.disabled = false;
+                        return;
+                    }
+                    params.append('customerId', customerId);
+                }
+
+                if (params.toString()) {
+                    url += `?${params.toString()}`;
+                }
+
+                console.log('🌐 Запрос к API:', url);
+
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Ошибка загрузки отчета');
+
+                const data = await response.json();
+                console.log('📈 Данные отчета:', data);
+
+                if (data.success) {
+                    currentReportData = data;
+                    displayReport(data, currentReportType);
+                    showAlert('Отчет успешно сформирован');
+
+                    // Активировать кнопку экспорта
+                    document.getElementById('export-excel').disabled = false;
+                } else {
+                    throw new Error(data.error || 'Неизвестная ошибка');
+                }
+            } catch (error) {
+                console.error('❌ Ошибка:', error);
+                showAlert('Ошибка при формировании отчета: ' + error.message, 'error');
+            } finally {
+                // Восстановить кнопку
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+            }
+        }
+
+        // Отобразить отчет
+        function displayReport(data, reportType) {
+            const resultsContainer = document.getElementById('report-results');
+
+            switch (reportType) {
+                case 'daily-revenue':
+                    displayDailyRevenueReport(data, resultsContainer);
+                    break;
+                case 'average-check':
+                    displayAverageCheckReport(data, resultsContainer);
+                    break;
+                case 'sales-dynamics':
+                    displaySalesDynamicsReport(data, resultsContainer);
+                    break;
+                case 'order-performance':
+                    displayOrderPerformanceReport(data, resultsContainer);
+                    break;
+                case 'customer-base':
+                    displayCustomerBaseReport(data, resultsContainer);
+                    break;
+                case 'customer-orders':
+                    displayCustomerOrdersReport(data, resultsContainer);
+                    break;
+                default:
+                    resultsContainer.innerHTML = '<p>Неизвестный тип отчета</p>';
+            }
+        }
+
+        // 1. Ежедневный отчет о выручке
+        function displayDailyRevenueReport(data, container) {
+            const report = data.report;
+            let html = `
+                <div class="report-summary">
+                    <div class="summary-item">
+                        Дата отчета: <span class="summary-value">${report.date}</span>
+                    </div>
+                    <div class="summary-item">
+                        Всего заказов: <span class="summary-value">${report.summary.total_orders}</span>
+                    </div>
+                    <div class="summary-item">
+                        Общая выручка: <span class="summary-value">${report.summary.total_revenue.toFixed(2)} руб.</span>
+                    </div>
+                    <div class="summary-item">
+                        Средний чек: <span class="summary-value">${report.summary.average_order_value.toFixed(2)} руб.</span>
+                    </div>
+                </div>
+
+                <h4>Детализация по категориям</h4>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Категория</th>
+                            <th>Выручка</th>
+                            <th>Количество продаж</th>
+                            <th>Доля в выручке</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            report.category_details.forEach(category => {
+                html += `
+                    <tr>
+                        <td><strong>${category.category}</strong></td>
+                        <td>${category.revenue.toFixed(2)} руб.</td>
+                        <td>${category.units} ед.</td>
+                        <td>${(category.revenue / report.summary.total_revenue * 100).toFixed(1)}%</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // 2. Анализ среднего чека
+        function displayAverageCheckReport(data, container) {
+            let html = `
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Текущий период</div>
+                        <div class="kpi-value">${data.summary.current_period_avg.toFixed(2)} руб.</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Предыдущий период</div>
+                        <div class="kpi-value">${data.summary.previous_period_avg.toFixed(2)} руб.</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Общий средний</div>
+                        <div class="kpi-value">${data.summary.overall_avg.toFixed(2)} руб.</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Количество периодов</div>
+                        <div class="kpi-value">${data.summary.total_periods}</div>
+                    </div>
+                </div>
+
+                <h4>Динамика среднего чека</h4>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Период</th>
+                            <th>Количество заказов</th>
+                            <th>Выручка</th>
+                            <th>Средний чек</th>
+                            <th>Изменение</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.report.forEach(row => {
+                const trendIcon = row.trend === 'up' ? '↗️' : row.trend === 'down' ? '↘️' : '➡️';
+                const trendClass = row.trend === 'up' ? 'percentage-up' : row.trend === 'down' ? 'percentage-down' : '';
+
+                html += `
+                    <tr>
+                        <td>${row.period}</td>
+                        <td>${row.order_count}</td>
+                        <td>${row.total_revenue.toFixed(2)} руб.</td>
+                        <td>${row.average_check.toFixed(2)} руб.</td>
+                        <td>
+                            ${trendIcon}
+                            <span class="percentage-badge ${trendClass}">
+                                ${row.change_percentage}%
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // 3. Динамика продаж
+        function displaySalesDynamicsReport(data, container) {
+            let html = `
+                <div class="report-summary">
+                    <div class="summary-item">
+                        Период: ${data.summary.period.startDate || 'все время'} - ${data.summary.period.endDate || 'все время'}
+                    </div>
+                    <div class="summary-item">
+                        Всего заказов: <span class="summary-value">${data.summary.total_orders}</span>
+                    </div>
+                    <div class="summary-item">
+                        Общая выручка: <span class="summary-value">${data.summary.total_revenue.toFixed(2)} руб.</span>
+                    </div>
+                    <div class="summary-item">
+                        Среднее заказов в день: <span class="summary-value">${data.summary.average_daily_orders}</span>
+                    </div>
+                </div>
+
+                <h4>Детальная статистика по дням</h4>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Количество заказов</th>
+                            <th>Выручка</th>
+                            <th>Средний чек</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            data.report.forEach(row => {
+                const isPeak = data.summary.peak_period && row.date === data.summary.peak_period.date;
+                const rowStyle = isPeak ? 'style="background-color: #fff3cd;"' : '';
+
+                html += `
+                    <tr ${rowStyle}>
+                        <td>${row.date} ${isPeak ? '🏆' : ''}</td>
+                        <td>${row.order_count}</td>
+                        <td>${row.total_revenue.toFixed(2)} руб.</td>
+                        <td>${row.average_order_value.toFixed(2)} руб.</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // 4. Отчет по выполненным заказам
+        function displayOrderPerformanceReport(data, container) {
+            const report = data.report;
+            let html = `
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Всего заказов</div>
+                        <div class="kpi-value">${report.totals.total_orders}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Выполнено</div>
+                        <div class="kpi-value">${report.totals.completed_orders}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Процент выполнения</div>
+                        <div class="kpi-value">${report.totals.completion_rate}%</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Отменено</div>
+                        <div class="kpi-value">${report.totals.cancelled_orders}</div>
+                    </div>
+                </div>
+
+                <h4>Распределение по статусам</h4>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Статус</th>
+                            <th>Количество</th>
+                            <th>Доля</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            report.status_breakdown.forEach(status => {
+                const percentage = (status.count / report.totals.total_orders * 100).toFixed(1);
+                html += `
+                    <tr>
+                        <td>${getStatusName(status.status)}</td>
+                        <td>${status.count}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table>`;
+            container.innerHTML = html;
+        }
+
+        // 5. База клиентов
+        function displayCustomerBaseReport(data, container) {
+            const report = data.report;
+            let html = `
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Всего клиентов</div>
+                        <div class="kpi-value">${report.customer_stats.total_customers}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Новых клиентов</div>
+                        <div class="kpi-value">${report.customer_stats.new_customers}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Активных клиентов</div>
+                        <div class="kpi-value">${report.customer_stats.active_customers}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Уровень активности</div>
+                        <div class="kpi-value">${report.activity_rate}%</div>
+                    </div>
+                </div>
+            `;
+
+            // Детальный список клиентов
+            if (report.customers_list && report.customers_list.length > 0) {
+                html += `
+                    <h4>Детальный список всех клиентов</h4>
+                    <div style="overflow-x: auto;">
+                        <table class="report-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ФИО</th>
+                                    <th>Email</th>
+                                    <th>Телефон</th>
+                                    <th>Дата регистрации</th>
+                                    <th>Всего заказов</th>
+                                    <th>Общая сумма</th>
+                                    <th>Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                report.customers_list.forEach(customer => {
+                    const fullName = `${customer.first_name || ''} ${customer.last_name || ''}`.trim() || 'Не указано';
+                    const registrationDate = new Date(customer.registration_date).toLocaleDateString('ru-RU');
+                    const totalSpent = parseFloat(customer.total_spent).toFixed(2);
+                    const statusClass = customer.status === 'Активный' ? 'percentage-up' : '';
+
+                    html += `
+                        <tr>
+                            <td>${customer.id}</td>
+                            <td><strong>${fullName}</strong></td>
+                            <td>${customer.email}</td>
+                            <td>${customer.phone || 'Не указан'}</td>
+                            <td>${registrationDate}</td>
+                            <td>${customer.total_orders}</td>
+                            <td>${totalSpent} руб.</td>
+                            <td><span class="percentage-badge ${statusClass}">${customer.status}</span></td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table></div>`;
+            }
+
+            // География клиентов
+            html += `<h4 style="margin-top: 30px;">География клиентов</h4>`;
+
+            if (report.geography && report.geography.length > 0) {
+                html += `
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Регион</th>
+                                <th>Количество клиентов</th>
+                                <th>Доля</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                report.geography.forEach(region => {
+                    const percentage = report.customer_stats.total_customers > 0 ?
+                        (region.customers / report.customer_stats.total_customers * 100).toFixed(1) : 0;
+                    html += `
+                        <tr>
+                            <td>${region.region}</td>
+                            <td>${region.customers}</td>
+                            <td>${percentage}%</td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+            } else {
+                html += `<p>Нет данных о географии клиентов</p>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // 6. История заказов клиентов
+        function displayCustomerOrdersReport(data, container) {
+            const report = data.report;
+            if (!report.customer_info) {
+                container.innerHTML = '<p>Клиент не найден или нет данных о заказах</p>';
+                return;
+            }
+
+            let html = `
+                <div class="report-summary">
+                    <div class="summary-item">
+                        Клиент: <span class="summary-value">${report.customer_info.name || 'Не указано'}</span>
+                    </div>
+                    <div class="summary-item">
+                        Email: <span class="summary-value">${report.customer_info.email}</span>
+                    </div>
+                    <div class="summary-item">
+                        Телефон: <span class="summary-value">${report.customer_info.phone || 'Не указан'}</span>
+                    </div>
+                </div>
+
+                <div class="kpi-container">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Всего заказов</div>
+                        <div class="kpi-value">${report.analytics.total_orders}</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Общая сумма</div>
+                        <div class="kpi-value">${report.analytics.total_spent.toFixed(2)} руб.</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Средний чек</div>
+                        <div class="kpi-value">${report.analytics.average_order_value.toFixed(2)} руб.</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Любимая категория</div>
+                        <div class="kpi-value">${report.analytics.favorite_category}</div>
+                    </div>
+                </div>
+            `;
+
+            // История заказов
+            html += `<h4>История заказов</h4>`;
+
+            if (report.orders && report.orders.length > 0) {
+                html += `
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>ID заказа</th>
+                                <th>Дата</th>
+                                <th>Статус</th>
+                                <th>Сумма</th>
+                                <th>Товары</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                report.orders.forEach(order => {
+                    let itemsList = '';
+                    try {
+                        if (typeof order.items === 'string') {
+                            const items = JSON.parse(order.items);
+                            itemsList = items.map(item =>
+                                `${item.name} (${item.quantity} шт.)`
+                            ).join(', ');
+                        } else if (Array.isArray(order.items)) {
+                            itemsList = order.items.map(item =>
+                                `${item.name} (${item.quantity} шт.)`
+                            ).join(', ');
+                        }
+                    } catch (e) {
+                        itemsList = 'Ошибка парсинга товаров';
+                    }
+
+                    html += `
+                        <tr>
+                            <td>#${order.id}</td>
+                            <td>${new Date(order.created_at).toLocaleDateString('ru-RU')}</td>
+                            <td>${getStatusName(order.status)}</td>
+                            <td>${order.total_price} руб.</td>
+                            <td title="${itemsList}">${itemsList.substring(0, 50)}${itemsList.length > 50 ? '...' : ''}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+            } else {
+                html += `<p>Нет данных о заказах</p>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Вспомогательные функции
+        function getStatusName(status) {
+            const statusNames = {
+                'new': 'Новый',
+                'processing': 'В обработке',
+                'delivered': 'Доставлен',
+                'cancelled': 'Отменен'
+            };
+            return statusNames[status] || status;
+        }
+
+        // Экспорт в Excel
+       // Экспорт в Excel - ПОЛНАЯ ВЕРСИЯ ДЛЯ ВСЕХ ОТЧЕТОВ
+function exportToExcel() {
+    if (!currentReportData) {
+        showAlert('Сначала сформируйте отчет', 'error');
+        return;
+    }
+    
+    // Создаем HTML таблицу в формате Excel
+    let htmlContent = `
+        <html xmlns:o="urn:schemas-microsoft-com:office:office" 
+              xmlns:x="urn:schemas-microsoft-com:office:excel" 
+              xmlns="http://www.w3.org/TR/REC-html40">
+        <head>
+            <meta charset="UTF-8">
+            <!--[if gte mso 9]>
+            <xml>
+                <x:ExcelWorkbook>
+                    <x:ExcelWorksheets>
+                        <x:ExcelWorksheet>
+                            <x:Name>Отчет</x:Name>
+                            <x:WorksheetOptions>
+                                <x:DisplayGridlines/>
+                            </x:WorksheetOptions>
+                        </x:ExcelWorksheet>
+                    </x:ExcelWorksheets>
+                </x:ExcelWorkbook>
+            </xml>
+            <![endif]-->
+            <style>
+                table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+                th { background-color: #f2f2f2; font-weight: bold; text-align: center; }
+                td, th { border: 1px solid #ddd; padding: 8px; }
+                .summary { background-color: #e8f5e8; font-weight: bold; }
+                .kpi-card { border: 1px solid #ddd; padding: 10px; margin: 5px; text-align: center; }
+                h2 { color: #2c1a00; }
+                h3 { color: #2c1a00; margin-top: 20px; }
+            </style>
+        </head>
+        <body>
+    `;
+    
+    let filename = '';
+    let tableContent = '';
+    
+    switch (currentReportType) {
+        case 'daily-revenue':
+            filename = `daily_revenue_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>Ежедневный отчет о выручке - ${currentReportData.report.date}</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Всего заказов</td>
+                        <td>${currentReportData.report.summary.total_orders}</td>
+                        <td>Общая выручка</td>
+                        <td>${currentReportData.report.summary.total_revenue.toFixed(2)} руб.</td>
+                        <td>Средний чек</td>
+                        <td>${currentReportData.report.summary.average_order_value.toFixed(2)} руб.</td>
+                    </tr>
+                </table>
+                <br>
+                <h3>Детализация по категориям</h3>
+                <table>
+                    <tr>
+                        <th>Категория</th>
+                        <th>Выручка</th>
+                        <th>Количество продаж</th>
+                        <th>Доля в выручке</th>
+                    </tr>
+            `;
+            currentReportData.report.category_details.forEach(category => {
+                tableContent += `
+                    <tr>
+                        <td>${category.category}</td>
+                        <td>${category.revenue.toFixed(2)} руб.</td>
+                        <td>${category.units} ед.</td>
+                        <td>${(category.revenue / currentReportData.report.summary.total_revenue * 100).toFixed(1)}%</td>
+                    </tr>
+                `;
+            });
+            tableContent += '</table>';
+            break;
+            
+        case 'average-check':
+            filename = `average_check_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>Анализ среднего чека</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Количество периодов</td>
+                        <td>${currentReportData.summary.total_periods}</td>
+                        <td>Текущий период</td>
+                        <td>${currentReportData.summary.current_period_avg.toFixed(2)} руб.</td>
+                        <td>Предыдущий период</td>
+                        <td>${currentReportData.summary.previous_period_avg.toFixed(2)} руб.</td>
+                    </tr>
+                </table>
+                <br>
+                <h3>Динамика среднего чека</h3>
+                <table>
+                    <tr>
+                        <th>Период</th>
+                        <th>Количество заказов</th>
+                        <th>Выручка</th>
+                        <th>Средний чек</th>
+                        <th>Изменение</th>
+                    </tr>
+            `;
+            
+            currentReportData.report.forEach(row => {
+                const trendIcon = row.trend === 'up' ? '↗️' : row.trend === 'down' ? '↘️' : '➡️';
+                tableContent += `
+                    <tr>
+                        <td>${row.period}</td>
+                        <td>${row.order_count}</td>
+                        <td>${row.total_revenue.toFixed(2)} руб.</td>
+                        <td>${row.average_check.toFixed(2)} руб.</td>
+                        <td>${trendIcon} ${row.change_percentage}%</td>
+                    </tr>
+                `;
+            });
+            tableContent += '</table>';
+            break;
+            
+        case 'sales-dynamics':
+            filename = `sales_dynamics_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>Динамика продаж</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Период</td>
+                        <td>${currentReportData.summary.period.startDate || 'все время'} - ${currentReportData.summary.period.endDate || 'все время'}</td>
+                        <td>Всего заказов</td>
+                        <td>${currentReportData.summary.total_orders}</td>
+                        <td>Общая выручка</td>
+                        <td>${currentReportData.summary.total_revenue.toFixed(2)} руб.</td>
+                    </tr>
+                </table>
+                <br>
+                <h3>Детальная статистика по дням</h3>
+                <table>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Количество заказов</th>
+                        <th>Выручка</th>
+                        <th>Средний чек</th>
+                    </tr>
+            `;
+            currentReportData.report.forEach(row => {
+                tableContent += `
+                    <tr>
+                        <td>${row.date}</td>
+                        <td>${row.order_count}</td>
+                        <td>${row.total_revenue.toFixed(2)} руб.</td>
+                        <td>${row.average_order_value.toFixed(2)} руб.</td>
+                    </tr>
+                `;
+            });
+            tableContent += '</table>';
+            break;
+            
+        case 'order-performance':
+            filename = `order_performance_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>Отчет по выполненным заказам</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Всего заказов</td>
+                        <td>${currentReportData.report.totals.total_orders}</td>
+                        <td>Выполнено</td>
+                        <td>${currentReportData.report.totals.completed_orders}</td>
+                        <td>Процент выполнения</td>
+                        <td>${currentReportData.report.totals.completion_rate}%</td>
+                    </tr>
+                </table>
+                <br>
+                <h3>Распределение по статусам</h3>
+                <table>
+                    <tr>
+                        <th>Статус</th>
+                        <th>Количество</th>
+                        <th>Доля</th>
+                    </tr>
+            `;
+            currentReportData.report.status_breakdown.forEach(status => {
+                const percentage = (status.count / currentReportData.report.totals.total_orders * 100).toFixed(1);
+                tableContent += `
+                    <tr>
+                        <td>${getStatusName(status.status)}</td>
+                        <td>${status.count}</td>
+                        <td>${percentage}%</td>
+                    </tr>
+                `;
+            });
+            tableContent += '</table>';
+            break;
+            
+        case 'customer-base':
+            filename = `customer_base_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>База клиентов</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Всего клиентов</td>
+                        <td>${currentReportData.report.customer_stats.total_customers}</td>
+                        <td>Новых клиентов</td>
+                        <td>${currentReportData.report.customer_stats.new_customers}</td>
+                        <td>Активных клиентов</td>
+                        <td>${currentReportData.report.customer_stats.active_customers}</td>
+                    </tr>
+                </table>
+                <br>
+                <h3>Детальный список клиентов</h3>
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>ФИО</th>
+                        <th>Email</th>
+                        <th>Телефон</th>
+                        <th>Дата регистрации</th>
+                        <th>Всего заказов</th>
+                        <th>Общая сумма</th>
+                        <th>Статус</th>
+                    </tr>
+            `;
+            
+            if (currentReportData.report.customers_list && currentReportData.report.customers_list.length > 0) {
+                currentReportData.report.customers_list.forEach(customer => {
+                    const fullName = `${customer.first_name || ''} ${customer.last_name || ''}`.trim() || 'Не указано';
+                    const registrationDate = new Date(customer.registration_date).toLocaleDateString('ru-RU');
+                    const totalSpent = parseFloat(customer.total_spent).toFixed(2);
+                    
+                    tableContent += `
+                        <tr>
+                            <td>${customer.id}</td>
+                            <td>${fullName}</td>
+                            <td>${customer.email}</td>
+                            <td>${customer.phone || 'Не указан'}</td>
+                            <td>${registrationDate}</td>
+                            <td>${customer.total_orders}</td>
+                            <td>${totalSpent} руб.</td>
+                            <td>${customer.status}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            tableContent += '</table>';
+            
+            // Добавляем географию в экспорт
+            if (currentReportData.report.geography && currentReportData.report.geography.length > 0) {
+                tableContent += `
+                    <br>
+                    <h3>География клиентов</h3>
+                    <table>
+                        <tr>
+                            <th>Регион</th>
+                            <th>Количество клиентов</th>
+                            <th>Доля</th>
+                        </tr>
+                `;
+                
+                currentReportData.report.geography.forEach(region => {
+                    const percentage = currentReportData.report.customer_stats.total_customers > 0 ? 
+                        (region.customers / currentReportData.report.customer_stats.total_customers * 100).toFixed(1) : 0;
+                    tableContent += `
+                        <tr>
+                            <td>${region.region}</td>
+                            <td>${region.customers}</td>
+                            <td>${percentage}%</td>
+                        </tr>
+                    `;
+                });
+                
+                tableContent += '</table>';
+            }
+            break;
+            
+        case 'customer-orders':
+            filename = `customer_orders_${new Date().toISOString().split('T')[0]}.xls`;
+            tableContent = `
+                <h2>История заказов клиента</h2>
+                <table>
+                    <tr class="summary">
+                        <td>Клиент</td>
+                        <td>${currentReportData.report.customer_info.name || 'Не указано'}</td>
+                        <td>Email</td>
+                        <td>${currentReportData.report.customer_info.email}</td>
+                        <td>Телефон</td>
+                        <td>${currentReportData.report.customer_info.phone || 'Не указан'}</td>
+                    </tr>
+                </table>
+                <br>
+                <table>
+                    <tr class="summary">
+                        <td>Всего заказов</td>
+                        <td>${currentReportData.report.analytics.total_orders}</td>
+                        <td>Общая сумма</td>
+                        <td>${currentReportData.report.analytics.total_spent.toFixed(2)} руб.</td>
+                        <td>Средний чек</td>
+                        <td>${currentReportData.report.analytics.average_order_value.toFixed(2)} руб.</td>
+                    </tr>
+                </table>
+            `;
+            
+            if (Object.keys(currentReportData.report.analytics.category_preferences || {}).length > 0) {
+                tableContent += `
+                    <br>
+                    <h3>Предпочтения по категориям</h3>
+                    <table>
+                        <tr>
+                            <th>Категория</th>
+                            <th>Количество заказов</th>
+                        </tr>
+                `;
+                
+                Object.entries(currentReportData.report.analytics.category_preferences).forEach(([category, count]) => {
+                    tableContent += `
+                        <tr>
+                            <td>${category}</td>
+                            <td>${count}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableContent += '</table>';
+            }
+            
+            tableContent += `
+                <br>
+                <h3>История заказов</h3>
+                <table>
+                    <tr>
+                        <th>ID заказа</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Сумма</th>
+                        <th>Товары</th>
+                    </tr>
+            `;
+            
+            if (currentReportData.report.orders && currentReportData.report.orders.length > 0) {
+                currentReportData.report.orders.forEach(order => {
+                    let itemsList = '';
+                    try {
+                        if (typeof order.items === 'string') {
+                            const items = JSON.parse(order.items);
+                            itemsList = items.map(item => 
+                                `${item.name} (${item.quantity} шт.)`
+                            ).join('; ');
+                        } else if (Array.isArray(order.items)) {
+                            itemsList = order.items.map(item => 
+                                `${item.name} (${item.quantity} шт.)`
+                            ).join('; ');
+                        }
+                    } catch (e) {
+                        itemsList = 'Ошибка парсинга товаров';
+                    }
+                    
+                    tableContent += `
+                        <tr>
+                            <td>${order.id}</td>
+                            <td>${new Date(order.created_at).toLocaleDateString('ru-RU')}</td>
+                            <td>${getStatusName(order.status)}</td>
+                            <td>${order.total_price} руб.</td>
+                            <td>${itemsList}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            tableContent += '</table>';
+            break;
+            
+        default:
+            showAlert('Экспорт в Excel для этого типа отчета пока не реализован', 'error');
+            return;
+    }
+    
+    htmlContent += tableContent + '</body></html>';
+    
+    downloadFile(htmlContent, filename, 'application/vnd.ms-excel');
+    showAlert('Отчет успешно экспортирован в Excel');
+}
+
+        // Функция для загрузки файла
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Выход из системы
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function () {
+            if (checkAuth()) {
+                initializeDates();
+                setupReportSelection();
+
+                // Обработчики событий
+                document.getElementById('generate-report').addEventListener('click', generateReport);
+                document.getElementById('export-excel').addEventListener('click', exportToExcel);
+                document.getElementById('load-customers-btn').addEventListener('click', loadCustomers);
+
+                document.getElementById('refresh-reports').addEventListener('click', function () {
+                    if (currentReportData) {
+                        generateReport();
+                    }
+                });
+
+                document.getElementById('logout-btn').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    logout();
+                });
+
+                // Обработчик для экспорта всех данных
+                document.getElementById('export-all').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showAlert('Функция экспорта всех данных в разработке', 'error');
+                });
+
+                // Обработчик для создания тестовых пользователей
+                document.getElementById('create-test-users').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    showAlert('Функция создания тестовых пользователей в разработке', 'error');
+                });
+
+                console.log('✅ Система отчетов инициализирована');
+            }
+        });
+    </script>
+</body>
+
+</html>

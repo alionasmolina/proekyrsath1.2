@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель управления - Nadista's Lab Berry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .admin-header {
+            background-color: #2c1a00;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background-color: #d4af37;
+            color: #2c1a00;
+        }
+
+        .admin-main {
+            padding: 30px 0;
+            min-height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #2c1a00;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-table th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+            color: #2c1a00;
+            text-align: center;
+        }
+
+        .admin-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .admin-table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #c19b2a;
+        }
+
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c1a00;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom-color: white;
+            margin-bottom: -1px;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: #e8f4fd;
+            color: #2c1a00;
+            border: 1px solid #3498db;
+        }
+
+        .status-inactive {
+            background-color: #fdeaea;
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        /* Центрированные уведомления */
+        #alert-container {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: auto;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .alert {
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 300px;
+            max-width: 500px;
+            border: 1px solid;
+        }
+
+        .alert-success {
+            background-color: #e8f4fd;
+            color: #2c1a00;
+            border-color: #3498db;
+        }
+
+        .alert-error {
+            background-color: #fdeaea;
+            color: #c0392b;
+            border-color: #e74c3c;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 15px;
+            color: inherit;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: #d4af37;
+        }
+
+        .image-upload i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            display: none;
+            border-radius: 5px;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .admin-table {
+                font-size: 12px;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 8px 5px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+
+            .alert {
+                min-width: 250px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+
+            #alert-container {
+                top: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="admin-header">
+        <div class="admin-container">
+            <a href="/" class="admin-logo">
+                <i class="fas fa-cog"></i> Панель управления Nadista
+            </a>
+            <nav class="admin-nav">
+                <a href="#" class="active" data-tab="products">Товары</a>
+                <!-- ДОБАВЛЕНА КНОПКА ОТЧЕТОВ -->
+                <a href="/admin-reports.html" target="_blank">
+                    <i class="fas fa-chart-bar"></i> Отчеты
+                </a>
+                <a href="/"><i class="fas fa-home"></i> На сайт</a>
+                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Контейнер для уведомлений - теперь по центру вверху -->
+    <div id="alert-container"></div>
+
+    <main class="admin-main">
+        <div class="admin-container" style="flex-direction: column; align-items: center;">
+            <div class="tab-content active" id="products-tab"
+                style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <div class="admin-section">
+                    <h2 class="section-title">Управление товарами</h2>
+
+                    <form id="product-form">
+                        <input type="hidden" id="product-id">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-category">Категория *</label>
+                                <select class="form-control" id="product-category" required>
+                                    <option value="">Выберите категорию</option>
+                                    <option value="byket">Букеты из клубники</option>
+                                    <option value="nabor">Оригинальные наборы</option>
+                                    <option value="stakanciki">Стаканчики</option>
+                                    <option value="tort">Торты</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-name">Название товара *</label>
+                                <input type="text" class="form-control" id="product-name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-description">Описание товара</label>
+                            <textarea class="form-control" id="product-description" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-price">Цена (₽) *</label>
+                                <input type="number" class="form-control" id="product-price" step="0.01" min="0"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-stock">Статус</label>
+                                <select class="form-control" id="product-stock">
+                                    <option value="1">В наличии</option>
+                                    <option value="0">Нет в наличии</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Изображение товара</label>
+                            <input type="text" class="form-control" id="product-image-url"
+                                placeholder="URL изображения">
+                            <small>Или загрузите файл:</small>
+                            <div class="image-upload" id="image-upload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Нажмите для загрузки изображения</p>
+                                <input type="file" id="product-image-file" accept="image/*" style="display: none;">
+                                <img id="image-preview" class="image-preview">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="save-product">
+                                <i class="fas fa-save"></i> Сохранить товар
+                            </button>
+                            <button type="button" class="btn" id="cancel-edit" style="display: none;">
+                                <i class="fas fa-times"></i> Отмена
+                            </button>
+                            <button type="button" class="btn" id="reset-increment">
+                                <i class="fas fa-sync-alt"></i> Сбросить нумерацию ID
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-section">
+                    <h3 class="section-title">Список товаров</h3>
+
+                    <div class="tabs" id="category-tabs">
+                        <div class="tab active" data-category="all">Все товары</div>
+                        <div class="tab" data-category="byket">Букеты</div>
+                        <div class="tab" data-category="nabor">Наборы</div>
+                        <div class="tab" data-category="stakanciki">Стаканчики</div>
+                        <div class="tab" data-category="tort">Торты</div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Изображение</th>
+                                    <th>Название</th>
+                                    <th>Категория</th>
+                                    <th>Цена</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table-body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentUser = null;
+        let products = [];
+        let currentEditingCategory = null;
+
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+            if (!token || !user || user.role !== 'admin') {
+                window.location.href = '/';
+                return false;
+            }
+
+            currentUser = user;
+            return true;
+        }
+
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                ${message}
+                <button class="alert-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            alertContainer.appendChild(alert);
+
+            // Автоматическое скрытие через 5 секунд
+            setTimeout(() => {
+                if (alert.parentElement) {
+                    alert.remove();
+                }
+            }, 5000);
+        }
+
+        // Исправьте функцию загрузки продуктов
+        async function loadProducts(category = 'all') {
+            try {
+                let url = '/api/products';
+                if (category !== 'all') {
+                    url = `/api/products/${category}`;
+                }
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Ошибка загрузки товаров');
+
+                let products = await response.json();
+
+                // Если категория 'all', фильтруем по выбранной категории
+                if (category !== 'all') {
+                    products = products.filter(product => product.category === category);
+                }
+
+                renderProducts(products);
+            } catch (error) {
+                console.error('Ошибка загрузки продуктов:', error);
+                showAlert('Ошибка загрузки товаров', 'error');
+
+                // Показываем пустую таблицу
+                const tbody = document.getElementById('products-table-body');
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Ошибка загрузки товаров</td></tr>';
+            }
+        }
+
+        function renderProducts(productsList) {
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '';
+
+            if (productsList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Товары не найдены</td></tr>';
+                return;
+            }
+
+            productsList.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>
+                        ${product.overlay_image ?
+                        `<img src="${product.overlay_image}" class="product-image" onerror="this.style.display='none'">` :
+                        '<i class="fas fa-image" style="font-size: 24px; color: #ddd;"></i>'
+                    }
+                    </td>
+                    <td>${product.name}</td>
+                    <td>${getCategoryName(product.category)}</td>
+                    <td>${product.price} ₽</td>
+                    <td>
+                        <span class="status-badge ${product.in_stock ? 'status-active' : 'status-inactive'}">
+                            ${product.in_stock ? 'В наличии' : 'Нет в наличии'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="btn btn-edit btn-sm" onclick="editProduct(${product.id}, '${product.category}')">
+                            <i class="fas fa-edit"></i> Изменить
+                        </button>
+                        <button class="btn btn-delete btn-sm" onclick="deleteProduct(${product.id}, '${product.category}')">
+                            <i class="fas fa-trash"></i> Удалить
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'byket': 'Букеты', 'nabor': 'Наборы',
+                'stakanciki': 'Стаканчики', 'tort': 'Торты'
+            };
+            return categories[category] || category;
+        }
+
+        // Исправьте функцию редактирования товара
+        async function editProduct(id, category) {
+            try {
+                const response = await fetch(`/api/products/${category}/${id}`);
+                if (!response.ok) throw new Error('Ошибка загрузки товара');
+
+                const product = await response.json();
+
+                currentEditingCategory = category;
+
+                document.getElementById('product-id').value = product.id;
+                document.getElementById('product-category').value = category;
+                document.getElementById('product-name').value = product.name;
+                document.getElementById('product-description').value = product.description || '';
+                document.getElementById('product-price').value = product.price;
+                document.getElementById('product-stock').value = product.in_stock ? '1' : '0';
+                document.getElementById('product-image-url').value = product.overlay_image || '';
+
+                if (product.overlay_image) {
+                    const preview = document.getElementById('image-preview');
+                    preview.src = product.overlay_image;
+                    preview.style.display = 'block';
+                }
+
+                document.getElementById('save-product').innerHTML = '<i class="fas fa-save"></i> Обновить товар';
+                document.getElementById('cancel-edit').style.display = 'inline-block';
+
+                showAlert('Товар загружен для редактирования');
+            } catch (error) {
+                console.error('Ошибка загрузки товара:', error);
+                showAlert('Ошибка загрузки товара', 'error');
+            }
+        }
+
+        // Исправьте функцию удаления товара
+        async function deleteProduct(id, category) {
+            if (!confirm('Вы уверены, что хотите удалить этот товар? Товар будет скрыт из каталога.')) return;
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/admin/products/${category}/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    showAlert('Товар успешно удален (скрыт из каталога)');
+                    loadProducts(document.querySelector('#category-tabs .tab.active').dataset.category);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Ошибка удаления');
+                }
+            } catch (error) {
+                console.error('Ошибка удаления товара:', error);
+                showAlert('Ошибка удаления товара: ' + error.message, 'error');
+            }
+        }
+
+        // Добавьте функцию для принудительного сброса автоинкремента
+        async function resetAutoIncrement() {
+            if (!confirm('Это действие сбросит нумерацию ID. Продолжить?')) return;
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/admin/reset-auto-increment', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    showAlert('Автоинкремент сброшен. ID будут перенумерованы.');
+                    loadProducts(document.querySelector('#category-tabs .tab.active').dataset.category);
+                } else {
+                    throw new Error('Ошибка сброса автоинкремента');
+                }
+            } catch (error) {
+                showAlert('Ошибка сброса автоинкремента', 'error');
+            }
+        }
+
+        async function uploadImage(file) {
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('image', file);
+
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error('Ошибка загрузки изображения');
+            const result = await response.json();
+            return result.url;
+        }
+
+        document.getElementById('product-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const productId = document.getElementById('product-id').value;
+            const newCategory = document.getElementById('product-category').value;
+
+            const category = productId ? currentEditingCategory : newCategory;
+
+            if (!category) {
+                showAlert('Выберите категорию товара', 'error');
+                return;
+            }
+
+            let imageUrl = document.getElementById('product-image-url').value;
+            const fileInput = document.getElementById('product-image-file');
+
+            if (fileInput.files.length > 0) {
+                try {
+                    showAlert('Загрузка изображения...', 'success');
+                    imageUrl = await uploadImage(fileInput.files[0]);
+                    document.getElementById('product-image-url').value = imageUrl;
+                } catch (error) {
+                    showAlert('Ошибка загрузки изображения', 'error');
+                    return;
+                }
+            }
+
+            const formData = {
+                name: document.getElementById('product-name').value.trim(),
+                description: document.getElementById('product-description').value.trim(),
+                price: parseFloat(document.getElementById('product-price').value),
+                overlay_image: imageUrl,
+                in_stock: document.getElementById('product-stock').value === '1'
+            };
+
+            if (!formData.name) {
+                showAlert('Введите название товара', 'error');
+                return;
+            }
+
+            if (!formData.price || formData.price <= 0) {
+                showAlert('Введите корректную цену', 'error');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                let url, method;
+
+                if (productId) {
+                    url = `/api/admin/products/${category}/${productId}`;
+                    method = 'PUT';
+                } else {
+                    url = `/api/admin/products/${category}`;
+                    method = 'POST';
+                }
+
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    showAlert(productId ? 'Товар успешно обновлен' : 'Товар успешно добавлен');
+                    resetForm();
+                    loadProducts(document.querySelector('#category-tabs .tab.active').dataset.category);
+                } else {
+                    throw new Error('Ошибка сохранения');
+                }
+            } catch (error) {
+                showAlert('Ошибка сохранения товара', 'error');
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('product-form').reset();
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('cancel-edit').style.display = 'none';
+            document.getElementById('save-product').innerHTML = '<i class="fas fa-save"></i> Сохранить товар';
+            document.getElementById('product-id').value = '';
+            document.getElementById('product-image-file').value = '';
+            currentEditingCategory = null;
+        }
+
+        document.getElementById('cancel-edit').addEventListener('click', resetForm);
+
+        document.getElementById('image-upload').addEventListener('click', function () {
+            document.getElementById('product-image-file').click();
+        });
+
+        document.getElementById('product-image-file').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showAlert('Файл слишком большой. Максимальный размер: 5MB', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                if (!file.type.startsWith('image/')) {
+                    showAlert('Выберите файл изображения', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('image-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+
+                document.getElementById('product-image-url').value = '';
+            }
+        });
+
+        document.querySelectorAll('#category-tabs .tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('#category-tabs .tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                loadProducts(this.dataset.category);
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+            logout();
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (checkAuth()) {
+                loadProducts();
+            }
+        });
+
+        // Добавьте этот код после кнопки "Отмена"
+        const resetBtn = document.createElement('button');
+        resetBtn.type = 'button';
+        resetBtn.className = 'btn';
+        resetBtn.id = 'reset-increment';
+        resetBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Сбросить нумерацию ID';
+        resetBtn.style.marginLeft = '10px';
+        resetBtn.style.display = 'none';
+        resetBtn.addEventListener('click', resetAutoIncrement);
+        document.querySelector('.form-actions').appendChild(resetBtn);
+
+        // Показываем кнопку сброса только для админов
+        if (currentUser && currentUser.role === 'admin') {
+            document.getElementById('reset-increment').style.display = 'inline-block';
+        }
+    </script>
+</body>
+
+</html>

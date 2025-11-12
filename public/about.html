@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Nadista's Lab Berry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Шапка */
+        .header1 {
+            background-color: #2c1a00;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+        }
+
+        /* Верхняя строка */
+        .top-bar {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .top-bar i {
+            margin-right: 5px;
+        }
+
+        /* Шапка */
+        .header {
+            background-color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c1a00;
+            text-decoration: none;
+            margin-right: 90px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            margin-right: 70px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #2c1a00;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #d4af37;
+        }
+
+        .icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .icons a {
+            color: #2c1a00;
+            font-size: 20px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .icons a:hover {
+            color: #d4af37;
+        }
+
+        .cart-count {
+            position: relative;
+            font-size: 12px;
+            color: white;
+            background-color: #d4af37;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: -10px;
+            right: -10px;
+        }
+
+        /* Стили для email пользователя в хедере */
+        .user-email {
+            font-size: 14px;
+            color: #2c1a00;
+            margin-right: 10px;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Стили для иконки админ-панели */
+        .admin-panel-icon {
+            font-size: 16px;
+            margin-left: 5px;
+            color: #d4af37;
+        }
+
+        /* Адаптивность для хедера */
+        @media (max-width: 1100px) {
+            .user-email {
+                max-width: 120px;
+                font-size: 13px;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .user-email {
+                display: none;
+            }
+        }
+
+        /* Герой-секция для страницы "О нас" */
+        .about-hero {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2c1a00 0%, #5a3921 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white"/><circle cx="20" cy="20" r="0.7" fill="white"/><circle cx="80" cy="80" r="0.5" fill="white"/><circle cx="30" cy="70" r="0.8" fill="white"/><circle cx="70" cy="30" r="0.6" fill="white"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            z-index: 1;
+        }
+
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .about-hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .about-hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Секция с историей */
+        .story-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .story-card {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .story-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .story-icon {
+            flex: 0 0 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c1a00;
+            font-size: 80px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .story-content {
+            flex: 1;
+        }
+
+        .story-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #2c1a00;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .story-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #d4af37;
+        }
+
+        .story-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Секция с ценностями */
+        .values-section {
+            padding: 80px 0;
+            background: linear-gradient(to bottom, #f9f9f9, #fff);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            color: #2c1a00;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #d4af37;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: #2c1a00;
+            font-size: 36px;
+        }
+
+        .value-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #2c1a00;
+        }
+
+        .value-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Секция с процессом */
+        .process-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, #d4af37, #f4d03f, #d4af37);
+            z-index: 1;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2c1a00, #5a3921);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: #d4af37;
+            font-size: 30px;
+            font-weight: bold;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .process-step h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #2c1a00;
+        }
+
+        .process-step p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Секция с призывом к действию */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #2c1a00 0%, #5a3921 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #d4af37;
+            color: #2c1a00;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #e6b83c;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Футер */
+        .footer {
+            background-color: #2c1a00;
+            color: white;
+            padding: 50px 0;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+        }
+
+        .footer-col {
+            line-height: 1.6;
+        }
+
+        .footer-col-1 {
+            font-size: 16px;
+        }
+
+        .footer-col-1 h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .footer-col-2 ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .footer-col-2 li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col-2 a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-col-2 a:hover {
+            color: #d4af37;
+        }
+
+        .footer-col-3 .contact-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-col-3 i {
+            font-size: 16px;
+        }
+
+        .footer-col-4 .subscribe-form {
+            width: 100%;
+            position: relative;
+        }
+
+        .footer-col-4 input {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #332200;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .footer-col-4 button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            padding: 10px 25px;
+            background-color: #d4af37;
+            color: black;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .footer-col-4 button:hover {
+            background-color: #e6b83c;
+        }
+
+        /* Соцсети */
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            margin-right: 12px;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:last-child {
+            margin-right: 0;
+        }
+
+        .social-links a:hover {
+            color: #d4af37;
+        }
+
+        /* Копирайт */
+        .copyright {
+            text-align: center;
+
+            padding-top: 20px;
+
+        }
+
+        .copyright .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copyright .left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .copyright a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .story-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+            }
+
+            .story-card:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .story-content h2::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .process-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                row-gap: 40px;
+            }
+
+            .footer-col {
+                text-align: center;
+            }
+
+            .footer-col-4 .subscribe-form {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .footer-col-4 button {
+                width: 100%;
+                margin-top: 10px;
+                position: relative;
+            }
+
+            .copyright .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 36px;
+            }
+
+            .about-hero p {
+                font-size: 18px;
+            }
+
+            .story-content h2 {
+                font-size: 28px;
+            }
+
+            .section-header h2 {
+                font-size: 30px;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+        }
+
+        /* Стили для модального окна авторизации - УВЕЛИЧЕННЫЕ */
+        #auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .auth-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            width: 450px;
+            max-width: 90vw;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 3px solid #d4af37;
+        }
+
+        .auth-modal-content h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2c1a00;
+            font-weight: bold;
+        }
+
+        .auth-input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #f9f9f9;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .auth-input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4af37;
+            font-size: 18px;
+        }
+
+        .auth-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #d4af37, #e6b83c);
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 25px;
+            cursor: pointer;
+            color: #d4af37;
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .auth-switch:hover {
+            color: #2c1a00;
+            text-decoration: underline;
+        }
+
+        .auth-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: #2c1a00;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .auth-close:hover {
+            color: #d4af37;
+            background-color: #f5f5f5;
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .auth-remember {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .auth-remember input {
+            margin-right: 8px;
+        }
+
+        .auth-forgot {
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+
+        .auth-forgot a {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .auth-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для поля подтверждения пароля (только для регистрации) */
+        #confirm-password-group {
+            display: none;
+        }
+
+        /* Дополнительные стили для улучшенного внешнего вида */
+        .auth-modal-content::before {
+            content: '🍓';
+            font-size: 40px;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            border: 3px solid #d4af37;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Верхняя панель -->
+    <div class="header1">
+        <div class="top-bar">
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                Москва
+            </div>
+            <div class="hours">
+                <i class="fas fa-clock"></i>
+                Принимаем заказы с 08:00 до 22:00
+            </div>
+            <div class="contact">
+                <i class="fas fa-phone"></i>
+                8 (800) 123-45-67
+                &nbsp;&nbsp;
+                <i class="fas fa-envelope"></i>
+                nadista@gmail.com
+            </div>
+        </div>
+    </div>
+
+    <!-- Шапка -->
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Nadista's Lab Berry</a>
+            <nav class="nav-menu">
+                <a href="catalog.html">КАТАЛОГ</a>
+                <a href="master-classes.html">МАСТЕР-КЛАССЫ</a>
+                <a href="about.html" style="color: #d4af37;">О НАС</a>
+                <a href="contacts.html">КОНТАКТЫ</a>
+            </nav>
+            <div class="icons">
+                <a href="#" id="user-icon"><i class="fas fa-user"></i></a>
+                
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Герой-секция -->
+    <div class="about-hero">
+        <div class="about-hero-content">
+            <h1>О NADISTA'S LAB BERRY</h1>
+            <p>Создаем сладкие моменты с 2018 года. Премиальные сладости ручной работы из натуральных ингредиентов.</p>
+        </div>
+    </div>
+
+    <!-- История компании -->
+    <div class="story-section">
+        <div class="story-container">
+            <div class="story-card">
+                <div class="story-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <div class="story-content">
+                    <h2>Наше начало</h2>
+                    <p>Nadista's Lab Berry родилась из страсти к созданию неповторимых вкусовых сочетаний.
+                        Основательница Надиста, вдохновленная европейскими кондитерскими традициями и японским вниманием
+                        к деталям, начала свой путь с небольших заказов для друзей и семьи. Уже через год наша продукция
+                        завоевала сердца ценителей качественных сладостей в Москве.</p>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <div class="story-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="story-content">
+                    <h2>Философия бренда</h2>
+                    <p>Мы верим, что настоящие сладости должны быть не только вкусными, но и полезными. Поэтому в основе
+                        нашей философии — использование только натуральных ингредиентов высочайшего качества. Каждый наш
+                        продукт создается с любовью и вниманием к деталям, чтобы подарить вам незабываемые эмоции.</p>
+                </div>
+            </div>
+
+            <div class="story-card">
+                <div class="story-icon">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div class="story-content">
+                    <h2>Наше развитие</h2>
+                    <p>За годы работы мы расширили ассортимент от классической клубники в шоколаде до изысканных
+                        букетов, оригинальных наборов и изумительных тортов. Сегодня Nadista's Lab Berry — это не просто
+                        кондитерская, а целая лаборатория вкуса, где рождаются сладкие шедевры для особенных моментов
+                        вашей жизни.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ценности компании -->
+    <div class="values-section">
+        <div class="section-header">
+            <h2>Наши ценности</h2>
+            <p>То, что делает наши сладости по-настоящему особенными</p>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Натуральность</h3>
+                <p>Мы используем только свежие сезонные ягоды, отборный шоколад и натуральные ингредиенты без
+                    искусственных добавок.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-hand-sparkles"></i>
+                </div>
+                <h3>Ручная работа</h3>
+                <p>Каждый продукт создается вручную нашими мастерами с вниманием к каждой детали и заботой о качестве.
+                </p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <h3>Премиум качество</h3>
+                <p>Мы не идем на компромиссы в качестве, выбирая лучшие ингредиенты и совершенствуя рецепты.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <h3>Эмоции клиентов</h3>
+                <p>Наша главная цель — дарить радость и создавать незабываемые моменты с помощью наших сладостей.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3>Инновации</h3>
+                <p>Мы постоянно экспериментируем с новыми вкусами и формами, чтобы удивлять наших клиентов.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Надежность</h3>
+                <p>Строгий контроль на всех этапах производства гарантирует безупречное качество каждой партии.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Процесс создания -->
+    <div class="process-section">
+        <div class="section-header">
+            <h2>Как мы создаем наши сладости</h2>
+            <p>Отбор ингредиентов до готового продукта — весь путь качества</p>
+        </div>
+
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Отбор ингредиентов</h3>
+                <p>Тщательный выбор свежих ягод, премиального шоколада и натуральных добавок</p>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Подготовка</h3>
+                <p>Аккуратная обработка ягод, темперирование шоколада и подготовка декора</p>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Создание</h3>
+                <p>Ручная работа мастеров, создающих каждый продукт с особым вниманием</p>
+            </div>
+
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Контроль качества</h3>
+                <p>Многоуровневая проверка перед упаковкой и доставкой</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Призыв к действию -->
+    <div class="cta-section">
+        <div class="cta-content">
+            <h2>Готовы попробовать наши сладости?</h2>
+            <p>Откройте для себя мир изысканных вкусов от Nadista's Lab Berry. Выберите идеальный подарок для себя или
+                близких в нашем каталоге.</p>
+            <a href="catalog.html" class="btn">Перейти в каталог</a>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="footer">
+        <div class="footer-container">
+            <!-- Колонка 1 -->
+            <div class="footer-col footer-col-1">
+                <h3>Nadista's Lab Berry</h3>
+                <p>Премиальные сладости, созданные с любовью. Клубника в шоколаде и японские моти высочайшего качества.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Колонка 2 -->
+            <div class="footer-col footer-col-2">
+                <h3>Каталог</h3>
+                <ul>
+                    <li><a href="catalog.html?category=byket">БУКЕТЫ ИЗ КЛУБНИКИ В ШОКОЛАДЕ</a></li>
+                    <li><a href="catalog.html?category=nabor">ОРИГИНАЛЬНЫЕ НАБОРЫ</a></li>
+                    <li><a href="catalog.html?category=stakanciki">ПРЕКРАСНЫЕ СТАКАНЧИКИ</a></li>
+                    <li><a href="catalog.html?category=tort">ТОРТЫ</a></li>
+                </ul>
+            </div>
+
+            <!-- Колонка 3 -->
+            <div class="footer-col footer-col-3">
+                <h3>Контакты</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>8 (800) 123-45-67</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>nadista@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Москва</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Ежедневно 08:00 - 22:00</span>
+                </div>
+            </div>
+
+            <!-- Колонка 4 -->
+            <div class="footer-col footer-col-4">
+                <h3>Подписка</h3>
+                <p>Подпишитесь на новости и получайте эксклюзивные предложения</p>
+                <div class="subscribe-form">
+                    <input type="email" placeholder="Ваш email">
+                    <button>Подписаться</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="copyright">
+            <div class="container">
+                <div class="left">
+                    © 2025 Nadista's Lab Berry. Все права защищены.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Модальное окно авторизации -->
+    <div id="auth-modal">
+        <div class="auth-modal-content">
+            <h2 id="auth-title">Вход</h2>
+            <form id="auth-form">
+                <div class="auth-input-group">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="email" id="auth-email" placeholder="Ваш email" required class="auth-input">
+                </div>
+
+                <div class="auth-input-group">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" id="auth-password" placeholder="Ваш пароль" required class="auth-input">
+                </div>
+
+                <div class="auth-input-group" id="confirm-password-group">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" id="auth-confirm-password" placeholder="Подтвердите пароль"
+                        class="auth-input">
+                </div>
+
+                <div class="auth-remember" id="remember-me-group">
+                    <input type="checkbox" id="remember-me">
+                    <label for="remember-me">Запомнить меня</label>
+                </div>
+
+                <button type="submit" class="auth-submit">Войти</button>
+            </form>
+
+            <div class="auth-divider">или</div>
+
+            <p id="auth-switch" class="auth-switch">Нет аккаунта? Зарегистрироваться</p>
+            <button id="auth-close" class="auth-close">×</button>
+        </div>
+    </div>
+
+    <script>
+        let isLoginMode = true;
+
+        // Функции для модального окна
+        function showAuthModal() {
+            document.getElementById('auth-modal').style.display = 'block';
+            updateAuthUI();
+        }
+
+        function hideAuthModal() {
+            document.getElementById('auth-modal').style.display = 'none';
+        }
+
+        function updateAuthUI() {
+            const title = document.getElementById('auth-title');
+            const form = document.getElementById('auth-form');
+            const switchText = document.getElementById('auth-switch');
+            const confirmPasswordGroup = document.getElementById('confirm-password-group');
+            const rememberMeGroup = document.getElementById('remember-me-group');
+
+            if (isLoginMode) {
+                title.textContent = 'Вход';
+                form.querySelector('button[type="submit"]').textContent = 'Войти';
+                switchText.textContent = 'Нет аккаунта? Зарегистрироваться';
+                confirmPasswordGroup.style.display = 'none';
+                rememberMeGroup.style.display = 'flex';
+            } else {
+                title.textContent = 'Регистрация';
+                form.querySelector('button[type="submit"]').textContent = 'Зарегистрироваться';
+                switchText.textContent = 'Уже есть аккаунт? Войти';
+                confirmPasswordGroup.style.display = 'block';
+                rememberMeGroup.style.display = 'none';
+            }
+        }
+
+        // Функция для обновления интерфейса после авторизации
+        function updateUIAfterAuth() {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            const userIcon = document.getElementById('user-icon');
+
+            if (user && userIcon) {
+                // Заменяем иконку пользователя на email с правильными стилями
+                userIcon.innerHTML = user.email;
+                userIcon.classList.add('user-email');
+
+                // Добавляем кнопку выхода если её нет
+                if (!document.getElementById('logout-btn')) {
+                    const logoutBtn = document.createElement('a');
+                    logoutBtn.href = '#';
+                    logoutBtn.id = 'logout-btn';
+                    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+                    logoutBtn.style.marginLeft = '10px';
+                    logoutBtn.addEventListener('click', logout);
+                    userIcon.parentNode.appendChild(logoutBtn);
+                }
+
+                // Показываем админ-панель если пользователь администратор
+                if (user.role === 'admin' && !document.getElementById('admin-panel-link')) {
+                    const adminLink = document.createElement('a');
+                    adminLink.href = '/admin.html';
+                    adminLink.id = 'admin-panel-link';
+                    adminLink.innerHTML = '<i class="fas fa-cog admin-panel-icon"></i>';
+                    adminLink.style.marginLeft = '10px';
+                    document.querySelector('.icons').appendChild(adminLink);
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            location.reload();
+        }
+
+        // Обработчики событий для модального окна
+        document.getElementById('auth-switch').addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            updateAuthUI();
+        });
+
+        document.getElementById('auth-close').addEventListener('click', hideAuthModal);
+
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const confirmPassword = document.getElementById('auth-confirm-password').value;
+
+            // Проверка для регистрации
+            if (!isLoginMode) {
+                if (password !== confirmPassword) {
+                    alert('Пароли не совпадают!');
+                    return;
+                }
+                if (password.length < 6) {
+                    alert('Пароль должен содержать не менее 6 символов!');
+                    return;
+                }
+            }
+
+            try {
+                // Здесь должна быть реальная авторизация через API
+                // Для демонстрации используем mock
+                setTimeout(() => {
+                    const userData = {
+                        token: 'mock-jwt-token-' + Date.now(),
+                        user: {
+                            email: email,
+                            role: email === 'admin@nadista.ru' ? 'admin' : 'user'
+                        },
+                        message: isLoginMode ? 'Вы успешно вошли!' : 'Регистрация прошла успешно!'
+                    };
+
+                    localStorage.setItem('token', userData.token);
+                    localStorage.setItem('user', JSON.stringify(userData.user));
+                    updateUIAfterAuth();
+                    hideAuthModal();
+                    alert(userData.message);
+                }, 1000);
+
+            } catch (error) {
+                alert('Ошибка соединения');
+            }
+        });
+
+        // Проверяем авторизацию при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (user) {
+                updateUIAfterAuth();
+            }
+
+            // Добавляем обработчик для иконки пользователя
+            const userIcon = document.getElementById('user-icon');
+            if (userIcon) {
+                userIcon.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (!localStorage.getItem('token')) {
+                        showAuthModal();
+                    }
+                });
+            }
+        });
+
+        // Закрытие модального окна при клике вне его
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('auth-modal')) {
+                hideAuthModal();
+            }
+        });
+
+        // Функция обновления счетчика корзины
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelectorAll('.cart-count').forEach(element => {
+                element.textContent = count;
+            });
+        }
+
+        // Обновляем счетчик при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function () {
+            updateCartCount();
+        });
+
+        // Также обновляем счетчик каждую секунду на случай изменений в других вкладках
+        setInterval(updateCartCount, 1000);
+
+        // Простая анимация при прокрутке
+        document.addEventListener('DOMContentLoaded', function () {
+            const animatedElements = document.querySelectorAll('.value-card, .process-step, .story-card');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            document.querySelector('a[href="cart.html"]').addEventListener('click', function (e) {
+                if (!localStorage.getItem('token')) {
+                    e.preventDefault();
+                    showAuthModal();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
